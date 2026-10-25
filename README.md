@@ -44,6 +44,22 @@ Glioma slices from patients with numeric IDs (22 of 89 glioma patients) were
 classified much less reliably than those with MR-prefixed IDs (61% vs 98% of
 validation and test slices). The reason is not yet known.
 
+## Leakage experiment
+
+Same model, same settings, same data pool, two ways of splitting (3 random seeds each):
+
+| | Patient-level split | Slice-level split |
+|---|---|---|
+| Accuracy on its own held-out set | 93.8% | 97.8% |
+| Accuracy on unseen test patients | 96.3% | 95.1% |
+
+99.4% of the held-out slices in the slice-level split came from patients that
+also appeared in training. The slice-level split reported about 4 points higher
+accuracy, but its models did not do better on unseen patients, so the extra
+accuracy came from leakage and not from a better model.
+Across 4 training runs of the baseline recipe, test slice accuracy ranged from
+94.0% to 97.2%, so differences of a couple of points are within run-to-run noise.
+
 **Disclaimer:** research demo, not for medical diagnosis.
 
 
