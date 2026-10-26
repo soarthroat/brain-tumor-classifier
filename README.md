@@ -60,6 +60,27 @@ accuracy came from leakage and not from a better model.
 Across 4 training runs of the baseline recipe, test slice accuracy ranged from
 94.0% to 97.2%, so differences of a couple of points are within run-to-run noise.
 
+## Grad-CAM check
+
+Grad-CAM heatmaps (last ResNet-18 block, 7x7 resolution) on correctly classified
+validation and test slices, compared with the dataset's tumor masks (medians per slice):
+
+| Group | Slices (patients) | Heatmap inside tumor | Tumor area | Focus vs chance |
+|---|---|---|---|---|
+| Glioma, MR IDs | 245 (14) | 4.5% | 2.0% | 2.3x |
+| Glioma, numeric IDs | 22 (4) | 9.1% | 3.3% | 3.0x |
+| Meningioma | 109 (15) | 4.0% | 1.2% | 3.0x |
+| Pituitary | 206 (12) | 1.1% | 0.7% | 1.6x |
+
+Heatmaps concentrate on the tumor more than chance, but most of the heatmap falls
+outside it, and its hottest point lies inside the tumor in only about 26-46% of
+glioma and meningioma slices (1% for pituitary). Pituitary tumors are smaller than
+one heatmap cell, so Grad-CAM cannot localize them. In the four misclassified
+examples shown, the heat sat on the skull edge, eye sockets, or top of the head.
+The numeric-ID glioma group has only 22 slices from 4 patients and cannot be compared
+reliably with the MR-ID group. Grad-CAM shows what influenced the model's decision,
+not where the tumor is.
+
 **Disclaimer:** research demo, not for medical diagnosis.
 
 
