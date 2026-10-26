@@ -1,0 +1,5 @@
+group,slices,patients,median_share,median_area,median_ratio,peak_hit_rate
+"glioma, MR-prefixed",245,14,0.045,0.02,2.339,0.273
+"glioma, numeric",22,4,0.091,0.033,2.952,0.455
+meningioma,109,15,0.04,0.012,2.976,0.257
+pituitary,206,12,0.011,0.007,1.553,0.01
