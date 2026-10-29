@@ -24,6 +24,14 @@ Since my model does not have a "no tumor" category, it assumes that a tumor is a
 
 In other words, my model can classify the type of brain tumor, but it cannot determine whether a tumor is present in the first place.
 
+## Why Did I Start?
+
+My interest in machine learning began during a brain tumor classification project with the Society of Asian Scientists and Engineers (SASE). As a Biomedical Engineering student, I helped source MRI datasets and explain clinical imaging concepts to my Computer Science teammates. That experience sparked a question: How do you actually build the model behind the predictions?
+
+I set out to answer that question by building an end-to-end brain MRI classification pipeline using a pretrained ResNet-18. The project grew beyond training a model: I implemented patient-level data splitting, investigated how data leakage inflates evaluation scores, analyzed classification errors across tumor subgroups, and evaluated Grad-CAM visualizations against tumor masks.
+
+The result is a browser-based research demo that classifies MRI slices as glioma, meningioma, or pituitary tumor. More importantly, this project taught me that building a useful machine learning model isn't just about achieving high accuracy. It's about understanding what that accuracy actually measures, where the model fails, and what its predictions can and cannot tell us.
+
 ## Highlights
 
 - **Patient-level split (80/10/10):** no patient appears in more than one split. Each patient contributes about 13 near-identical slices, so a random slice split leaks.
