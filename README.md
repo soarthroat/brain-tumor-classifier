@@ -9,20 +9,9 @@ Classifies 2D brain MRI slices as **meningioma, glioma, or pituitary tumor** wit
 ## Why A Classifier?
 My project answers the question "What kind is it?" rather than "Is it there?" or "Where is it?"
 
-1. **A Tumor Detector** (Finding a Tumor)
-A detector looks at an image to determine whether a tumor is present or not. It can also identify the tumor's exact location by drawing a box or outline around it.
+1. **A Tumor Detector** looks at an image to determine whether a tumor is present or not. It can also identify the tumor's exact location by drawing a box or outline around it.
 
-2. **A Tumor Classifier** (Identifying a Tumor Type)
-My model is a classifier, which means it looks at an image and predicts which type of brain tumor it contains. It classifies the image into one of three categories:
-- Glioma
-- Meningioma
-- Pituitary tumor
-
-Limitation of My Model:
-
-Since my model does not have a "no tumor" category, it assumes that a tumor is already present in the image. It then predicts which type of tumor it is.
-
-In other words, my model can classify the type of brain tumor, but it cannot determine whether a tumor is present in the first place.
+2. **A Tumor Classifier** looks at an image and predicts which type of brain tumor it contains. Since my model does not have a "no tumor" category, it assumes that a tumor is already present in the image.
 
 ## Why Did I Start?
 
