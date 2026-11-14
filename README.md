@@ -87,7 +87,7 @@ Same model and settings, trained two ways on the same pool of slices (3 random s
 
 ### Where the model makes mistakes
 
-- Validation errors concentrated in a few patients (one patient accounted for 10 of 17 errors in the first baseline run).
+- Validation errors concentrated in a few patients (one patient accounted for 10 of 18 errors in the baseline run).
 - **Glioma ID groups:** every glioma patient with an "MR"-prefixed ID is classified correctly far more often than gliomas with numeric IDs (98% vs 61% of validation and test slices; 22 of the 89 glioma patients have numeric IDs). The reason is unknown. Meningioma is the weakest class at patient level.
 
 ![Glioma examples by ID group](results/glioma_id_groups.png)
@@ -134,20 +134,19 @@ The notebooks were run on Kaggle (Python, PyTorch). Run them in order:
 
 ### Step 1: Data and split 
 
-- Add the [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) (a kaggle mirror of the figshare dataset) as an input for both 01 and 02.
+- Add the [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) (an uploaded kaggle version of the figshare dataset) as an input for both 01 and 02.
 - 01 is optional. It only previews one slice and its tumor mask. Skipping this does not affect the next steps.
-- This step verifies whether the Kaggle dataset have the correct 3,064 slices and previews one of the slice. 
 - 02 writes slice_info.csv (patient split, seed 42). The split is technically random, but since the seed is fixed at 42, it will always split in this particular "randomness".
-- A copy of my exact split is in this repo, so you can skip 02 by downloading my slice_info.csv or download yours from the output and check that it matches.
-- Create a new dataset on kaggle, attach the slice_info.csv file, name it "brain-tumor-split", and attach as input for future steps (03, 04, 05, 06).
+- A copy of my exact split is in this repo, so you can skip 02 by downloading my slice_info.csv or run 02 and download slice_info.csv from the output. 
+- Create a new dataset on kaggle by clicking "+ Create" in the upper left corner, click Dataset, attach the slice_info.csv file, name it "brain-tumor-split", and attach as input for future steps (03, 04, 05, 06).
 
 ### Step 2: Training 
 
 - 03 you should now have [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) plus slice_info.csv (brain-tumor-split) as input.
 - Run it.
 - This step writes slices_224.pt and resnet18_best.pth as outputs, download them.
-- slices_224.pt is the MRI slices, preprocessed once and saved so later notebooks load fast. Each image is scaled to pixel values between 0 and 1 and resized from 512×512 to 224×224, the input size ResNet-18 expects. The file also stores each slice’s tumor label. Notebook 03 creates it, and notebooks 04, 05 and 06 load it instead of re-reading the 3,064 original .mat files.
-- resnet18_best.pth is the final result of the trained model after 8 trials of training. This is the part that learned to tell the three tumors apart.
+- slices_224.pt is the 3,064 MRI slices, processed once and saved so later notebooks can load faster. Each image is scaled to pixel values between 0 and 1 and resized from 512×512 to 224×224, which is the input size ResNet-18 needed. The file also stores each slice’s tumor label. Notebook 03 creates it so that notebooks 04, 05 and 06 load it instead of re-reading the 3,064 original .mat files.
+- resnet18_best.pth is the final result of the trained model after 8 trials (epochs) of training. This is the part that learned to tell the three tumors apart.
 - Create new datasets, upload slices_224.pt and name it "slices_224.pt", upload "resnet18_best.pth" and name it "resnet18_best.pth".
 
 ### Step 3: Evaluation, leakage experiment, Grad-CAM 
