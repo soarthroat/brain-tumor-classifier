@@ -132,31 +132,32 @@ The notebooks were run on Kaggle (Python, PyTorch). Run them in order:
 | [`05-leakage-experiment`](notebooks/05-leakage-experiment.ipynb) | Patient-level vs slice-level split comparison |
 | [`06-gradcam`](notebooks/06-gradcam.ipynb) | Heatmaps and heatmap-vs-mask check |
 
-<details>
-<summary><b>Step 1: Data and split (notebooks 01 and 02)</b></summary>
+### Step 1: Data and split 
 
-Add the [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) (a kaggle mirror of the figshare dataset) as an input.
+- Add the [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) (a kaggle mirror of the figshare dataset) as an input for both 01 and 02.
+- 01 is optional. It only previews one slice and its tumor mask. Skipping this does not affect the next steps.
+- This step verifies whether the Kaggle dataset have the correct 3,064 slices and previews one of the slice. 
+- 02 writes slice_info.csv (patient split, seed 42). The split is technically random, but since the seed is fixed at 42, it will always split in this particular "randomness".
+- A copy of my exact split is in this repo, so you can skip 02 by downloading my slice_info.csv or download yours from the output and check that it matches.
+- Create a new dataset on kaggle, attach the slice_info.csv file, name it "brain-tumor-split", and attach as input for future steps (03, 04, 05, 06).
 
-02 writes slice_info.csv (patient split, seed 42). A copy of my exact split is in this repo. Download slice_info.csv from the output. Create a new dataset on kaggle, attach slice_info.csv, name it "brain-tumor-split", and attach as input for future steps.
+### Step 2: Training 
 
-</details>
+- 03 you should now have [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) plus slice_info.csv (brain-tumor-split) as input.
+- Run it.
+- This step writes slices_224.pt and resnet18_best.pth as outputs, download them.
+- slices_224.pt is the MRI slices, preprocessed once and saved so later notebooks load fast. Each image is scaled to pixel values between 0 and 1 and resized from 512×512 to 224×224, the input size ResNet-18 expects. The file also stores each slice’s tumor label. Notebook 03 creates it, and notebooks 04, 05 and 06 load it instead of re-reading the 3,064 original .mat files.
+- resnet18_best.pth is the final result of the trained model after 8 trials of training. This is the part that learned to tell the three tumors apart.
+- Create new datasets, upload slices_224.pt and name it "slices_224.pt", upload "resnet18_best.pth" and name it "resnet18_best.pth".
 
-<details>
-<summary><b>Step 2: Training (notebook 03)</b></summary>
+### Step 3: Evaluation, leakage experiment, Grad-CAM 
 
-03 you should now have [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) plus slice_info.csv as input. Run it. This step writes slices_224.pt and resnet18_best.pth as outputs, download them. Create new datasets, upload slices_224.pt and name it "slices_224.pt", upload "resnet18_best.pth" and name it "resnet18_best.pth".
+- 04, 05, 06: attach the Cheng dataset, slice_info.csv, slices_224.pt and resnet18_best.pth for every notebook and run them, respectively.
+- Some notebooks are saved with my outputs still there, once you run them, your new outputs should override the old data.
 
-</details>
+For the sake of simplicity, most datasets are named after the files, however, the code technically search for the file's name, not the dataset's.
 
-<details>
-<summary><b>Step 3: Evaluation, leakage experiment, Grad-CAM (notebooks 04, 05, 06)</b></summary>
-
-04, 05, 06: attach the Cheng dataset, slice_info.csv, slices_224.pt and resnet18_best.pth for every notebook and run them, respectively. Some notebooks are saved with my outputs still there, once you run them, your new outputs should override the old data.
-
-</details>
-For the sake of simplicity, most datasets are named after the files, however, the code technically search for the file's name, not the dataset's. 
-
-Training is not identically replicatable, so a rerun will differ slightly from the reported numbers (four runs scored 94.0% to 97.2% on test). The figures in results/ come from my original run. The web demo is built separately on Hugging Face and is not included in these notebooks. 
+Training is not identically replicatable, so a rerun will differ slightly from the reported numbers (four runs scored 94.0% to 97.2% on test). The figures in results/ come from my original run. The web demo is built separately on Hugging Face and is not included in these notebooks.
 
 ## Repository layout
 
