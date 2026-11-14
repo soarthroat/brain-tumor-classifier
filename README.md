@@ -132,11 +132,28 @@ The notebooks were run on Kaggle (Python, PyTorch). Run them in order:
 | [`05-leakage-experiment`](notebooks/05-leakage-experiment.ipynb) | Patient-level vs slice-level split comparison |
 | [`06-gradcam`](notebooks/06-gradcam.ipynb) | Heatmaps and heatmap-vs-mask check |
 
-Add the [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) (a kaggle mirror of the figshare dataset) as an input.
-02 writes slice_info.csv (patient split, seed 42). A copy of my exact split is in this repo. Download slice_info.csv from the output. Create a new dataset on kaggle, attach slice_info.csv, name it "brain-tumor-split", and attach as input for future steps.
-03 you should now have [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) plus slice_info.csv as input. Run it. This step writes slices_224.pt and resnet18_best.pth as outputs, download them. Create new datasets, upload slices_224.pt and name it "slices_224.pt", upload "resnet18_best.pth" and name it "resnet18_best.pth". 
-04, 05, 06: attach the Cheng dataset, slice_info.csv, slices_224.pt and resnet18_best.pth for every notebook and run them, respectively. Some notebooks are saved with my outputs still there, once you run them, your new outputs should override the old data. 
+<details>
+<summary><b>Step 1: Data and split (notebooks 01 and 02)</b></summary>
 
+Add the [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) (a kaggle mirror of the figshare dataset) as an input.
+
+02 writes slice_info.csv (patient split, seed 42). A copy of my exact split is in this repo. Download slice_info.csv from the output. Create a new dataset on kaggle, attach slice_info.csv, name it "brain-tumor-split", and attach as input for future steps.
+
+</details>
+
+<details>
+<summary><b>Step 2: Training (notebook 03)</b></summary>
+
+03 you should now have [Cheng dataset](https://www.kaggle.com/datasets/hieuvodoanminh/jun-chengs-2017-brain-tumor-dataset) plus slice_info.csv as input. Run it. This step writes slices_224.pt and resnet18_best.pth as outputs, download them. Create new datasets, upload slices_224.pt and name it "slices_224.pt", upload "resnet18_best.pth" and name it "resnet18_best.pth".
+
+</details>
+
+<details>
+<summary><b>Step 3: Evaluation, leakage experiment, Grad-CAM (notebooks 04, 05, 06)</b></summary>
+
+04, 05, 06: attach the Cheng dataset, slice_info.csv, slices_224.pt and resnet18_best.pth for every notebook and run them, respectively. Some notebooks are saved with my outputs still there, once you run them, your new outputs should override the old data.
+
+</details>
 For the sake of simplicity, most datasets are named after the files, however, the code technically search for the file's name, not the dataset's. 
 
 Training is not identically replicatable, so a rerun will differ slightly from the reported numbers (four runs scored 94.0% to 97.2% on test). The figures in results/ come from my original run. The web demo is built separately on Hugging Face and is not included in these notebooks. 
